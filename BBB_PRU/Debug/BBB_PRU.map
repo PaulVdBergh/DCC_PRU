@@ -1,7 +1,7 @@
 ******************************************************************************
                      PRU Linker PC v2.1.5                      
 ******************************************************************************
->> Linked Mon Oct 02 17:53:42 2017
+>> Linked Wed Oct 25 16:10:48 2017
 
 OUTPUT FILE NAME:   <BBB_PRU.out>
 ENTRY POINT SYMBOL: "_c_int00_noinit_noargs_noexit"  address: 00000000
@@ -12,7 +12,7 @@ MEMORY CONFIGURATION
          name            origin    length      used     unused   attr    fill
 ----------------------  --------  ---------  --------  --------  ----  --------
 PAGE 0:
-  PRU_IMEM              00000000   00002000  00000690  00001970  RWIX
+  PRU_IMEM              00000000   00002000  0000071c  000018e4  RWIX
 
 PAGE 1:
   PRU_DMEM_0_1          00000000   00002000  000003a0  00001c60  RWIX
@@ -60,22 +60,23 @@ section   page    origin      length       input sections
 *          0    00000000    00000014     
                   00000000    00000014     rtspruv3_le.lib : boot_special.obj (.text:_c_int00_noinit_noargs_noexit)
 
-.text      0    00000014    0000067c     
-                  00000014    00000130     main.obj (.text:main)
-                  00000144    000000d8     rpmsg_lib.lib : pru_rpmsg.object (.text:pru_rpmsg_send)
-                  0000021c    000000c4                   : pru_rpmsg.object (.text:pru_rpmsg_receive)
-                  000002e0    00000080     main.obj (.text:SendBit)
-                  00000360    00000080     main.obj (.text:SendCommand)
-                  000003e0    0000006c     main.obj (.text:SendByte)
-                  0000044c    00000060     rpmsg_lib.lib : pru_rpmsg.object (.text:pru_rpmsg_init)
-                  000004ac    00000060                   : pru_virtqueue.object (.text:pru_virtqueue_get_avail_buf)
-                  0000050c    00000060                   : pru_virtqueue.object (.text:pru_virtqueue_init)
-                  0000056c    0000005c                   : pru_rpmsg.object (.text:pru_rpmsg_channel)
-                  000005c8    0000005c                   : pru_virtqueue.object (.text:pru_virtqueue_add_used_buf)
-                  00000624    00000034     rtspruv3_le.lib : memcpy.obj (.text)
-                  00000658    00000028     rpmsg_lib.lib : pru_virtqueue.object (.text:pru_virtqueue_kick)
-                  00000680    00000008     rtspruv3_le.lib : exit.obj (.text:abort)
-                  00000688    00000008                     : exit.obj (.text:loader_exit)
+.text      0    00000014    00000708     
+                  00000014    000000fc     main.obj (.text:main)
+                  00000110    000000d8     rpmsg_lib.lib : pru_rpmsg.object (.text:pru_rpmsg_send)
+                  000001e8    000000c4     main.obj (.text:RailComCutout)
+                  000002ac    000000c4     rpmsg_lib.lib : pru_rpmsg.object (.text:pru_rpmsg_receive)
+                  00000370    00000084     main.obj (.text:SendCommand)
+                  000003f4    00000078     main.obj (.text:SendBit)
+                  0000046c    0000006c     main.obj (.text:SendByte)
+                  000004d8    00000060     rpmsg_lib.lib : pru_rpmsg.object (.text:pru_rpmsg_init)
+                  00000538    00000060                   : pru_virtqueue.object (.text:pru_virtqueue_get_avail_buf)
+                  00000598    00000060                   : pru_virtqueue.object (.text:pru_virtqueue_init)
+                  000005f8    0000005c                   : pru_rpmsg.object (.text:pru_rpmsg_channel)
+                  00000654    0000005c                   : pru_virtqueue.object (.text:pru_virtqueue_add_used_buf)
+                  000006b0    00000034     rtspruv3_le.lib : memcpy.obj (.text)
+                  000006e4    00000028     rpmsg_lib.lib : pru_virtqueue.object (.text:pru_virtqueue_kick)
+                  0000070c    00000008     rtspruv3_le.lib : exit.obj (.text:abort)
+                  00000714    00000008                     : exit.obj (.text:loader_exit)
 
 .bss       1    00000000    00000200     UNINITIALIZED
                   00000000    00000200     (.common:payload)
@@ -139,12 +140,13 @@ GLOBAL SYMBOLS: SORTED ALPHABETICALLY BY Name
 
 page  address   name                         
 ----  -------   ----                         
-0     00000688  C$$EXIT                      
+0     00000714  C$$EXIT                      
 2     00026000  CT_CFG                       
 2     00020000  CT_INTC                      
-0     000002e0  SendBit                      
-0     000003e0  SendByte                     
-0     00000360  SendCommand                  
+0     000001e8  RailComCutout                
+0     000003f4  SendBit                      
+0     0000046c  SendByte                     
+0     00000370  SendCommand                  
 abs   481cc000  __PRU_CREG_BASE_DCAN0        
 abs   481d0000  __PRU_CREG_BASE_DCAN1        
 abs   80000000  __PRU_CREG_BASE_DDR          
@@ -215,20 +217,20 @@ abs   ffffffff  __binit__
 abs   ffffffff  __c_args__                   
 0     00000000  _c_int00_noinit_noargs_noexit
 1     00000200  _stack                       
-0     00000680  abort                        
+0     0000070c  abort                        
 abs   ffffffff  binit                        
 0     00000014  main                         
-0     00000624  memcpy                       
+0     000006b0  memcpy                       
 1     00000000  payload                      
 1     0000039c  pru_intc_map                 
-0     0000056c  pru_rpmsg_channel            
-0     0000044c  pru_rpmsg_init               
-0     0000021c  pru_rpmsg_receive            
-0     00000144  pru_rpmsg_send               
-0     000005c8  pru_virtqueue_add_used_buf   
-0     000004ac  pru_virtqueue_get_avail_buf  
-0     0000050c  pru_virtqueue_init           
-0     00000658  pru_virtqueue_kick           
+0     000005f8  pru_rpmsg_channel            
+0     000004d8  pru_rpmsg_init               
+0     000002ac  pru_rpmsg_receive            
+0     00000110  pru_rpmsg_send               
+0     00000654  pru_virtqueue_add_used_buf   
+0     00000538  pru_virtqueue_get_avail_buf  
+0     00000598  pru_virtqueue_init           
+0     000006e4  pru_virtqueue_kick           
 1     00000300  resourceTable                
 
 
@@ -238,20 +240,21 @@ page  address   name
 ----  -------   ----                         
 0     00000000  _c_int00_noinit_noargs_noexit
 0     00000014  main                         
-0     00000144  pru_rpmsg_send               
-0     0000021c  pru_rpmsg_receive            
-0     000002e0  SendBit                      
-0     00000360  SendCommand                  
-0     000003e0  SendByte                     
-0     0000044c  pru_rpmsg_init               
-0     000004ac  pru_virtqueue_get_avail_buf  
-0     0000050c  pru_virtqueue_init           
-0     0000056c  pru_rpmsg_channel            
-0     000005c8  pru_virtqueue_add_used_buf   
-0     00000624  memcpy                       
-0     00000658  pru_virtqueue_kick           
-0     00000680  abort                        
-0     00000688  C$$EXIT                      
+0     00000110  pru_rpmsg_send               
+0     000001e8  RailComCutout                
+0     000002ac  pru_rpmsg_receive            
+0     00000370  SendCommand                  
+0     000003f4  SendBit                      
+0     0000046c  SendByte                     
+0     000004d8  pru_rpmsg_init               
+0     00000538  pru_virtqueue_get_avail_buf  
+0     00000598  pru_virtqueue_init           
+0     000005f8  pru_rpmsg_channel            
+0     00000654  pru_virtqueue_add_used_buf   
+0     000006b0  memcpy                       
+0     000006e4  pru_virtqueue_kick           
+0     0000070c  abort                        
+0     00000714  C$$EXIT                      
 1     00000000  payload                      
 1     00000200  _stack                       
 1     00000300  __TI_STACK_END               
@@ -328,4 +331,4 @@ abs   ffffffff  __binit__
 abs   ffffffff  __c_args__                   
 abs   ffffffff  binit                        
 
-[91 symbols]
+[92 symbols]

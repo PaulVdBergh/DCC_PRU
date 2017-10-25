@@ -1,0 +1,77 @@
+// This DTS overlay sets up the pins for use by DCC_V3  
+   
+ // Save this file wherever you want (but I recommend /lib/firmware), as  
+ // "DCC_V3-00A0.dts".
+   
+ // Compile with:
+ // dtc -O dtb -I dts -o /lib/firmware/DCC_V3-00A0.dtbo -b 0 -@ DCC_V3-00A0.dts 
+ 
+ /dts-v1/;  
+ /plugin/;  
+ 
+ / {  
+   // This determines which boards can use this DTS overlay  
+   compatible = "ti,beaglebone", "ti,beaglebone-green", "ti,beaglebone-black";  
+   
+   // I think part-number is supposed to correspond with the filename,  
+   // so we'd save this as "DCC_V3-00A0.dts".  
+   part-number = "DCC_V3";  
+   
+   // This always seems to be 00A0, and all the .dtbo files in /lib/firmware  
+   // seem to be named foo-00A0.dtbo, but then are loaded without that suffix.
+   version = "00A0";
+   
+   // List the pins and resources we'll be using. This table:  
+   // http://elinux.org/Ti_AM33XX_PRUSSv2#Beaglebone_PRU_connections_and_modes  
+   // shows which pins can be used with PRU0 and PRU1 for input and output via  
+   // registers R31 and R30.
+   //  
+   // Beware: Many other PRU EGP pins are reserved by HDMI or onboard flash, which  
+   // would need to be disabled first by editing uEnv.txt and rebooting.  
+   exclusive-use =
+      "P8.43", "pr1_pru1_pru_r30_2",
+      "P8.45", "pr1_pru1_pru_r30_0",
+      "P8.46", "pr1_pru1_pru_r30_1",  
+      "P9.12", "gpio1_28",
+      "P9.15", "gpio1_16",
+      "P9.23", "gpio1_17",
+      "P9.25", "gpio3_21",
+      "P9.29", "pr1_pru0_pru_r30_1",
+      "P9.30", "pr1_pru0_pru_r30_2",
+      "P9.31", "pr1_pru0_pru_r30_0"
+      ;  
+   
+   fragment@0 {  
+    target = <&am33xx_pinmux>;  
+    __overlay__ {  
+      dcc_pins: dcc_pins_V3 {  
+   
+       // Table 9-60 in the TRM: http://www.ti.com/lit/ug/spruh73l/spruh73l.pdf  
+       // helps us calculate the rest of the configuration value.  
+        
+       pinctrl-single,pins = <
+         0x0a8 0x05
+         0x0a0 0x05
+         0x0a4 0x05
+         0x078 0x27
+         0x040 0x07
+         0x044 0x07
+         0x1ac 0x27
+         0x194 0x05
+         0x198 0x05
+         0x190 0x05
+       >;  
+      };  
+    };  
+   };  
+   
+   // This enables the PRU and assigns the GPIO pins to it for use in EGP mode.  
+   fragment@1 {  
+    target = <&pruss>;  
+    __overlay__ { 
+      pinctrl-names = "default";  
+      pinctrl-0 = <&dcc_pins>;  
+      status = "okay";   
+    };  
+   };  
+ };  
