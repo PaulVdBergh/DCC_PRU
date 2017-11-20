@@ -1,7 +1,7 @@
 ******************************************************************************
                      PRU Linker PC v2.1.5                      
 ******************************************************************************
->> Linked Wed Oct 25 16:10:48 2017
+>> Linked Fri Oct 27 16:44:36 2017
 
 OUTPUT FILE NAME:   <BBB_PRU.out>
 ENTRY POINT SYMBOL: "_c_int00_noinit_noargs_noexit"  address: 00000000
